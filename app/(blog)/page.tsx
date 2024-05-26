@@ -31,6 +31,11 @@ function Intro(props: { title: string | null | undefined; description: any }) {
           value={description?.length ? description : demo.description}
         />
       </h2>
+      <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
+        <Link href="/search" className="hover:underline text-red-500">
+          Search Posts
+        </Link>
+      </h2>
     </section>
   );
 }
