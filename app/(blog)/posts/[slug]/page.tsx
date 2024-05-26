@@ -8,6 +8,7 @@ import Avatar from "../../avatar";
 import CoverImage from "../../cover-image";
 import DateComponent from "../../date";
 import MoreStories from "../../more-stories";
+import SocialMediaSection from "../../social-media-section";
 import PortableText from "../../portable-text";
 
 import type {
@@ -95,6 +96,7 @@ export default async function PostPage({ params }: Props) {
         <div className="mb-8 sm:mx-0 md:mb-16">
           <CoverImage image={post.coverImage} priority />
         </div>
+
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 text-lg">
             <DateComponent dateString={post.date} />
@@ -106,12 +108,17 @@ export default async function PostPage({ params }: Props) {
             value={post.content as PortableTextBlock[]}
           />
         )}
+        <hr className="border-accent-2 my-16" />
+        <SocialMediaSection
+          title={"Check out this post on our social media!"}
+        />
       </article>
       <aside>
         <hr className="border-accent-2 my-16" />
         <h2 className="mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl">
           Recent Stories
         </h2>
+
         <Suspense>
           <MoreStories skip={post._id} limit={2} />
         </Suspense>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import SocialMediaSection from "./social-media-section";
 
 import Avatar from "./avatar";
 import CoverImage from "./cover-image";
@@ -45,7 +46,13 @@ function HeroPost({
   "title" | "coverImage" | "date" | "excerpt" | "author" | "slug"
 >) {
   return (
-    <article>
+    <article className="lg:px-24">
+      <h2
+        className="text-2xl font-bold mb-4 text-gray-500 lg:text-4xl lg:mb-8
+      "
+      >
+        Recent Article
+      </h2>
       <Link className="group mb-8 block md:mb-16" href={`/posts/${slug}`}>
         <CoverImage image={coverImage} priority />
       </Link>
@@ -104,12 +111,13 @@ export default async function Page() {
       )}
       {heroPost?._id && (
         <aside>
-          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">
-            More Stories
+          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter text-center md:text-left md:text-7xl">
+            More Articles
           </h2>
           <Suspense>
             <MoreStories skip={heroPost._id} limit={100} />
           </Suspense>
+          <SocialMediaSection />
         </aside>
       )}
     </div>
