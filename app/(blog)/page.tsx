@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { FaSearch } from "react-icons/fa";
 import SocialMediaSection from "./social-media-section";
 
 import Avatar from "./avatar";
@@ -30,11 +31,33 @@ function Intro(props: { title: string | null | undefined; description: any }) {
           className="prose-lg text-white"
           value={description?.length ? description : demo.description}
         />
-      </h2>
-      <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
-        <Link href="/search" className="hover:underline text-red-500">
-          Search Posts
-        </Link>
+        <div className="mt-4 text-center lg:text-left flex justify-end gap-4">
+          <Link
+            href="/search"
+            className="hover:underline text-red-500 flex items-center"
+          >
+            <FaSearch className="mr-1 text-xl" />
+            <PortableText
+              className="prose-sm text-white"
+              value={[
+                {
+                  _key: "search",
+                  _type: "block",
+                  children: [
+                    {
+                      _key: "search",
+                      _type: "span",
+                      marks: [],
+                      text: "Search Posts",
+                    },
+                  ],
+                  markDefs: [],
+                  style: "normal",
+                },
+              ]}
+            />
+          </Link>
+        </div>
       </h2>
     </section>
   );
