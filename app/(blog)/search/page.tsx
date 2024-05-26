@@ -29,6 +29,7 @@ interface Post {
   author: {
     _ref: string;
     _type: string;
+    name: string; // Added author name property
   };
   _createdAt: string;
   _updatedAt: string;
@@ -86,32 +87,37 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="container mx-auto px-5">
-      <form method="GET" action="/search" onSubmit={handleSearch}>
+    <div className="container mx-auto px-5 py-10">
+      <form
+        method="GET"
+        action="/search"
+        onSubmit={handleSearch}
+        className="flex justify-center mb-10"
+      >
         <input
           type="text"
           name="query"
           defaultValue={searchQuery}
           placeholder="Search by title"
-          className="border p-2"
+          className="border p-2 w-1/2"
         />
         <button type="submit" className="ml-2 p-2 bg-blue-500 text-white">
           Search
         </button>
       </form>
-      <div className="mt-5">
+      <div className="mt-5 space-y-5">
         {posts.map((post) => {
           console.log("post", post);
           const picture = post.coverImage;
           return (
-            <div key={post._id} className="mb-5 border p-4 rounded shadow flex">
+            <div key={post._id} className="border p-4 rounded shadow flex">
               {post.coverImage && (
                 <div className="mr-4">
                   <Image
                     alt={picture?.alt || ""}
                     className="h-full rounded-full object-cover"
-                    height={200}
-                    width={200}
+                    height={100}
+                    width={120}
                     src={
                       urlForImage(picture)
                         ?.height(200)
@@ -133,9 +139,6 @@ export default function SearchPage() {
                 <p className="text-gray-700 mt-2">{post.excerpt}</p>
                 <p className="text-gray-500 text-sm mt-1">
                   Posted on: {new Date(post.date).toLocaleDateString()}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  Author: {post.author._ref}
                 </p>
               </div>
             </div>
