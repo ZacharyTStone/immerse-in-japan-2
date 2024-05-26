@@ -1,13 +1,10 @@
-// app/(blog)/search/page.tsx
-
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Image } from "next-sanity/image";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Suspense } from "react";
 
 interface Post {
   _id: string;
@@ -50,9 +47,7 @@ interface Post {
 
 async function fetchPosts(query: string): Promise<Post[]> {
   const res = await fetch(`/api/search?query=${query}`);
-
   const posts: Post[] = await res.json();
-
   return posts;
 }
 
