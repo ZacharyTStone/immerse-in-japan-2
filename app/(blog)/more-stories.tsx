@@ -17,10 +17,18 @@ export default async function MoreStories(params: {
     params,
   });
 
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center text-pretty text-2xl mt-32 mb-32">
+        No more posts to show.
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="mb-32 grid grid-cols-1 gap-y-20 md:grid-cols-2 md:gap-x-16 md:gap-y-32 lg:gap-x-32">
-        {data?.map((post) => {
+        {data.map((post) => {
           const { _id, title, slug, coverImage, excerpt, author } = post;
           return (
             <article key={_id}>
