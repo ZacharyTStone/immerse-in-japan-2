@@ -10,7 +10,7 @@ const postFields = /* groq */ `
   excerpt,
   coverImage,
   "date": coalesce(date, _updatedAt),
-  "author": author->{"name": coalesce(name, "Anonymous"), picture},
+  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},
 `;
 
 export const heroQuery = groq`*[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {

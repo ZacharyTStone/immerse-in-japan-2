@@ -85,7 +85,11 @@ export default async function PostPage({ params }: Props) {
         </h1>
         <div className="mb-6 block md:mb-12">
           {post.author && (
-            <Avatar name={post.author.name} picture={post.author.picture} />
+            <Avatar
+              name={post.author.name}
+              picture={post.author.picture}
+              jlptLevel={post.author.jlptLevel}
+            />
           )}
         </div>
         <div className="mb-8 sm:mx-0 md:mb-16">

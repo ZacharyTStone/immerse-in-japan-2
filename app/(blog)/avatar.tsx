@@ -6,9 +6,10 @@ import { urlForImage } from "@/sanity/lib/utils";
 interface Props {
   name: string;
   picture: Exclude<Author["picture"], undefined> | null;
+  jlptLevel?: string;
 }
 
-export default function Avatar({ name, picture }: Props) {
+export default function Avatar({ name, picture, jlptLevel }: Props) {
   return (
     <div className="flex items-center text-xl">
       {picture?.asset?._ref ? (
@@ -30,7 +31,10 @@ export default function Avatar({ name, picture }: Props) {
       ) : (
         <div className="mr-1">By </div>
       )}
-      <div className="text-pretty text-xl font-bold">{name}</div>
+      <div className="flex items-center gap-2">
+        <div className="text-pretty text-xl font-bold">{name}</div>
+        <div className="text-pretty text-xl">(JLPT Level {jlptLevel})</div>
+      </div>
     </div>
   );
 }

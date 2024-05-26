@@ -135,6 +135,7 @@ export type Author = {
     alt?: string;
     _type: "image";
   };
+  jlptLevel?: string;
 };
 
 export type Slug = {
@@ -440,7 +441,7 @@ export type SettingsQueryResult = {
   };
 } | null;
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type HeroQueryResult = {
   content: Array<{
     children?: Array<{
@@ -492,10 +493,11 @@ export type HeroQueryResult = {
       alt?: string;
       _type: "image";
     } | null;
+    jlptLevel: string | "N/A";
   } | null;
 } | null;
 // Variable: moreStoriesQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},}
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type MoreStoriesQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
@@ -529,10 +531,11 @@ export type MoreStoriesQueryResult = Array<{
       alt?: string;
       _type: "image";
     } | null;
+    jlptLevel: string | "N/A";
   } | null;
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},}
+// Query: *[_type == "post" && slug.current == $slug] [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type PostQueryResult = {
   content: Array<{
     children?: Array<{
@@ -584,6 +587,7 @@ export type PostQueryResult = {
       alt?: string;
       _type: "image";
     } | null;
+    jlptLevel: string | "N/A";
   } | null;
 } | null;
 // Source: ./app/(blog)/posts/[slug]/page.tsx
