@@ -116,7 +116,6 @@ export default async function PostPage({ params }: Props) {
         <hr className="border-accent-2 my-16" />
         <SocialMediaSection
           title={"Check out this post on our social media!"}
-          wordsToHighlight={["social media"]}
         />
       </article>
       <aside>

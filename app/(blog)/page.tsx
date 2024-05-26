@@ -22,7 +22,7 @@ function Intro(props: { title: string | null | undefined; description: any }) {
     : demo.description;
   return (
     <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between bg-black text-white rounded-lg p-8">
-      <h1 className="text-balance text-5xl font-bold leading-tight tracking-tighter text-center lg:text-left lg:pr-8 lg:text-7xl">
+      <h1 className="text-balance text-5xl font-bold leading-tight tracking-tighter text-center lg:text-left lg:pr-8 lg:text-7xl mb-4 lg:mb-0">
         {highlightWords(title || demo.title, ["Japan"])}
       </h1>
       <h2 className="text-2xl text-center lg:text-left lg:text-4xl lg:w-1/2 lg:pl-8 lg:mt-0 lg:mb-0">
