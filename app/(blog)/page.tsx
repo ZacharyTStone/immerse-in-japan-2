@@ -13,27 +13,30 @@ import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
+import { highlightWords } from "../utils";
 
-function Intro(props: { title: string | null | undefined; description: any }) {
+export function Intro(props: {
+  title: string | null | undefined;
+  description: any;
+}) {
   const title = props.title || demo.title;
   const description = props.description?.length
     ? props.description
     : demo.description;
   return (
-    <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between">
+    <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between bg-black text-white rounded-lg p-8">
       <h1 className="text-balance text-5xl font-bold leading-tight tracking-tighter lg:pr-8 lg:text-7xl">
-        {title || demo.title}
+        {highlightWords(title || demo.title, ["Japan"])}
       </h1>
-      <h2 className="text-pretty mt-5 text-center text-lg lg:pl-8 lg:text-left">
+      <h2 className="text-2xl text-center lg:text-left lg:text-4xl lg:w-1/2 lg:pl-8 lg:mt-0 lg:mb-0">
         <PortableText
-          className="prose-lg"
+          className="prose-lg text-white"
           value={description?.length ? description : demo.description}
         />
       </h2>
     </section>
   );
 }
-
 function HeroPost({
   title,
   slug,
@@ -53,6 +56,7 @@ function HeroPost({
       >
         Recent Article
       </h2>
+
       <Link className="group mb-8 block md:mb-16" href={`/posts/${slug}`}>
         <CoverImage image={coverImage} priority />
       </Link>
@@ -111,7 +115,7 @@ export default async function Page() {
       )}
       {heroPost?._id && (
         <aside>
-          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter text-center md:text-left md:text-7xl">
+          <h2 className="mb-8 text-5xl font-bold leading-tight tracking-tighter text-center md:text-left md:text-6xl">
             More Articles
           </h2>
           <Suspense>

@@ -10,6 +10,8 @@ import DateComponent from "../../date";
 import MoreStories from "../../more-stories";
 import SocialMediaSection from "../../social-media-section";
 import PortableText from "../../portable-text";
+import { highlightWords } from "../../../utils";
+import { FaArrowLeft } from "react-icons/fa";
 
 import type {
   PostQueryResult,
@@ -20,6 +22,7 @@ import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery, settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { Intro } from "../../page";
 
 type Props = {
   params: { slug: string };
@@ -76,9 +79,12 @@ export default async function PostPage({ params }: Props) {
   return (
     <div className="container mx-auto px-5">
       <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
-          {settings?.title || demo.title}
-        </Link>
+        <div className="flex items-center gap-2">
+          <FaArrowLeft color="red" size="1.5em" />
+          <Link href="/" className="hover:underline text-red-500">
+            Back Home
+          </Link>
+        </div>
       </h2>
       <article>
         <h1 className="text-balance mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl md:leading-none lg:text-7xl">
@@ -111,6 +117,7 @@ export default async function PostPage({ params }: Props) {
         <hr className="border-accent-2 my-16" />
         <SocialMediaSection
           title={"Check out this post on our social media!"}
+          wordsToHighlight={["social media"]}
         />
       </article>
       <aside>
