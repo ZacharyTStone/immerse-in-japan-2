@@ -15,10 +15,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
 import { highlightWords } from "../utils";
 
-export function Intro(props: {
-  title: string | null | undefined;
-  description: any;
-}) {
+function Intro(props: { title: string | null | undefined; description: any }) {
   const title = props.title || demo.title;
   const description = props.description?.length
     ? props.description
