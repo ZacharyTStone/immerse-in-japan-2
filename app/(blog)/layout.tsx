@@ -64,26 +64,19 @@ async function Footer() {
   const footer = data?.footer || [];
 
   return (
-    <footer className="bg-accent-1 border-accent-2 border-t">
+    <footer className="bg-accent-1 border-accent-2 border-t py-6">
       <div className="container mx-auto px-5">
         {footer.length > 0 ? (
           <PortableText
-            className="prose-sm text-pretty bottom-0 w-full max-w-none bg-white py-12 text-center md:py-20"
+            className="prose-sm text-pretty text-center text-sm"
             value={footer as PortableTextBlock[]}
           />
         ) : (
-          <div className="flex flex-col items-center py-28 lg:flex-row">
-            <h3 className="mb-10 text-center text-2xl font-bold leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-3xl">
-              Site Maintained by Zach Stone
-            </h3>
-            <div className="flex flex-col items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-              <a
-                href="https://zstone.dev"
-                className="mx-3 font-bold hover:underline"
-              >
-                Check out his personal site here
-              </a>
-            </div>
+          <div className="flex flex-col items-center space-y-2 text-sm">
+            <p>Site Maintained by Zach Stone</p>
+            <a href="https://zstone.dev" className="font-bold hover:underline">
+              Check out his personal site here
+            </a>
           </div>
         )}
       </div>

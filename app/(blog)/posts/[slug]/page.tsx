@@ -37,7 +37,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const post = await sanityFetch<PostQueryResult>({
     query: postQuery,
@@ -74,16 +74,16 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="container mx-auto px-5">
-      <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
+      <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
         <Link href="/" className="hover:underline">
           {settings?.title || demo.title}
         </Link>
       </h2>
       <article>
-        <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
+        <h1 className="text-balance mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl md:leading-none lg:text-7xl">
           {post.title}
         </h1>
-        <div className="hidden md:mb-12 md:block">
+        <div className="mb-6 block md:mb-12">
           {post.author && (
             <Avatar name={post.author.name} picture={post.author.picture} />
           )}
@@ -92,15 +92,8 @@ export default async function PostPage({ params }: Props) {
           <CoverImage image={post.coverImage} priority />
         </div>
         <div className="mx-auto max-w-2xl">
-          <div className="mb-6 block md:hidden">
-            {post.author && (
-              <Avatar name={post.author.name} picture={post.author.picture} />
-            )}
-          </div>
           <div className="mb-6 text-lg">
-            <div className="mb-4 text-lg">
-              <DateComponent dateString={post.date} />
-            </div>
+            <DateComponent dateString={post.date} />
           </div>
         </div>
         {post.content?.length && (
@@ -111,8 +104,8 @@ export default async function PostPage({ params }: Props) {
         )}
       </article>
       <aside>
-        <hr className="border-accent-2 mb-24 mt-28" />
-        <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">
+        <hr className="border-accent-2 my-16" />
+        <h2 className="mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl">
           Recent Stories
         </h2>
         <Suspense>

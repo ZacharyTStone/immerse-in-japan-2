@@ -41,5 +41,10 @@ export default defineType({
       },
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "jlptLevel",
+      title: "JLPT Level",
+      type: "string",
+    }),
   ],
 });
