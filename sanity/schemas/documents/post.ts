@@ -81,6 +81,7 @@ export default defineType({
           { title: "Video", value: "video" },
           { title: "Audio", value: "audio" },
           { title: "Game", value: "game" },
+          { title: "Immersion Source/Tool", value: "tool" },
         ],
       },
     }),
