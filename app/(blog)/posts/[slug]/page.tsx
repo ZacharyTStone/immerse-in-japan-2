@@ -151,6 +151,9 @@ export default async function PostPage({ params }: Props) {
 
         <hr className="border-accent-2 my-16" />
         <SocialMediaSection
+          instagramUrl={post.instaVideo ?? undefined}
+          youtubeUrl={post.youtubeVideo ?? undefined}
+          tiktokUrl={post.tiktokVideo ?? undefined}
           title={"Check out this post on our social media!"}
         />
       </article>

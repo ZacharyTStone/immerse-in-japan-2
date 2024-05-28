@@ -99,6 +99,9 @@ export type Post = {
   tags?: Array<string>;
   contentType?: "text" | "video" | "audio" | "game" | "tool";
   hasFurigana?: boolean;
+  tiktokVideo?: string;
+  instaVideo?: string;
+  youtubeVideo?: string;
   exampleScreenshot?: {
     asset?: {
       _ref: string;
@@ -510,6 +513,9 @@ export type HeroQueryResult = {
   } | null;
   recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
   hasFurigana: boolean | null;
+  tiktokVideo?: string;
+  instaVideo?: string;
+  youtubeVideo?: string;
   tags: Array<string> | null;
   exampleScreenshot: {
     asset?: {
@@ -563,6 +569,9 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
   recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
   hasFurigana: boolean | null;
+  tiktokVideo?: string;
+  instaVideo?: string;
+  youtubeVideo?: string;
   tags: Array<string> | null;
   exampleScreenshot: {
     asset?: {
@@ -636,6 +645,9 @@ export type PostQueryResult = {
   contentType: "text" | "video" | "audio" | "game" | "tool" | null;
   tags: Array<string> | null;
   hasFurigana: boolean | null;
+  tiktokVideo?: string;
+  instaVideo?: string;
+  youtubeVideo?: string;
   exampleScreenshot: {
     asset?: {
       _ref: string;
