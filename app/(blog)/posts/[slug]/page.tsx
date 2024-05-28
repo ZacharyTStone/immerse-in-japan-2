@@ -121,9 +121,11 @@ export default async function PostPage({ params }: Props) {
           )}
           {post.exampleScreenshot && (
             <div className="mb-6">
-              <Image
+              <img
                 alt={post.exampleScreenshot?.alt || ""}
-                className="rounded-full object-contain"
+                className="w-full h-auto"
+                width={200}
+                height={200}
                 src={urlForImage(post.exampleScreenshot)?.url() as string}
               />
             </div>

@@ -13,6 +13,7 @@ export const urlForImage = (source: any) => {
     return undefined;
   }
 
+  console.log("source", imageBuilder?.image(source).auto("format").fit("max"));
   return imageBuilder?.image(source).auto("format").fit("max");
 };
 
@@ -25,7 +26,7 @@ export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
 
 export function resolveHref(
   documentType?: string,
-  slug?: string,
+  slug?: string
 ): string | undefined {
   switch (documentType) {
     case "post":
