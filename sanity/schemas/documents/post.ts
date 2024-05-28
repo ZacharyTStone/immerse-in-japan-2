@@ -52,6 +52,70 @@ export default defineType({
       type: "text",
     }),
     defineField({
+      name: "recommendedJLPTLevel",
+      title: "Recommended JLPT Level",
+      type: "string",
+      options: {
+        list: [
+          { title: "N5", value: "N5" },
+          { title: "N4", value: "N4" },
+          { title: "N3", value: "N3" },
+          { title: "N2", value: "N2" },
+          { title: "N1", value: "N1" },
+        ],
+      },
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "contentType",
+      title: "Content Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Text", value: "text" },
+          { title: "Video", value: "video" },
+          { title: "Audio", value: "audio" },
+          { title: "Game", value: "game" },
+        ],
+      },
+    }),
+    defineField({
+      name: "exampleScreenshot",
+      title: "Example Screenshot",
+      type: "image",
+      options: {
+        hotspot: true,
+        aiAssist: {
+          imageDescriptionField: "alt",
+        },
+      },
+
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative text",
+          description: "Important for SEO and accessiblity.",
+          validation: (rule) => {
+            return rule.custom((alt, context) => {
+              if (
+                (context.document?.exampleScreenshot as any)?.asset?._ref &&
+                !alt
+              ) {
+                return "Required";
+              }
+              return true;
+            });
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "coverImage",
       title: "Cover Image",
       type: "image",

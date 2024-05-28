@@ -21,7 +21,8 @@ import type {
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery, settingsQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
+import { Image } from "next-sanity/image";
 
 type Props = {
   params: { slug: string };
@@ -106,6 +107,29 @@ export default async function PostPage({ params }: Props) {
           <div className="mb-6 text-lg">
             <DateComponent dateString={post.date} />
           </div>
+          {post.recommendedJLPTLevel && (
+            <div className="mb-6 text-lg">
+              <strong>Recommended JLPT Level: </strong>
+              {post.recommendedJLPTLevel}
+            </div>
+          )}
+          {post.exampleScreenshot && (
+            <div className="mb-6">
+              <Image
+                alt={post.exampleScreenshot?.alt || ""}
+                className="h-full rounded-full object-cover"
+                height={100}
+                width={120}
+                src={
+                  urlForImage(post.exampleScreenshot)
+                    ?.height(200)
+                    .width(200)
+                    .fit("crop")
+                    .url() as string
+                }
+              />
+            </div>
+          )}
         </div>
         {post.content?.length && (
           <PortableText
@@ -113,6 +137,18 @@ export default async function PostPage({ params }: Props) {
             value={post.content as PortableTextBlock[]}
           />
         )}
+        {post.tags?.length && (
+          <div className="mb-8">
+            <strong>Tags: </strong>
+            {post.tags.map((tag, index) => (
+              <span key={tag}>
+                {index > 0 && ", "}
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         <hr className="border-accent-2 my-16" />
         <SocialMediaSection
           title={"Check out this post on our social media!"}
