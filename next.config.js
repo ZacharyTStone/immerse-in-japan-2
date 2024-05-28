@@ -3,6 +3,8 @@ module.exports = {
   experimental: {
     // Used to guard against accidentally leaking SANITY_API_READ_TOKEN to the browser
     taint: true,
+    // fix search
+    missingSuspenseWithCSRBailout: false,
   },
   logging: {
     fetches: { fullUrl: false },
