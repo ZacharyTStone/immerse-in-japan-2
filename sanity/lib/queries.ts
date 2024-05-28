@@ -9,6 +9,9 @@ const postFields = /* groq */ `
   "slug": slug.current,
   excerpt,
   coverImage,
+  recommendedJLPTLevel,
+  tags,
+  exampleScreenshot,
   "date": coalesce(date, _updatedAt),
   "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},
 `;

@@ -110,7 +110,7 @@ export default async function PostPage({ params }: Props) {
           {post.recommendedJLPTLevel && (
             <div className="mb-6 text-lg">
               <strong>Recommended JLPT Level: </strong>
-              {post.recommendedJLPTLevel}
+              {post.recommendedJLPTLevel} or higher
             </div>
           )}
           {post.exampleScreenshot && (
