@@ -86,6 +86,11 @@ export default defineType({
       },
     }),
     defineField({
+      name: "hasFurigana",
+      title: "Has Furigana",
+      type: "boolean",
+    }),
+    defineField({
       name: "exampleScreenshot",
       title: "Example Screenshot",
       type: "image",
@@ -100,7 +105,7 @@ export default defineType({
         {
           name: "alt",
           type: "string",
-          title: "Alternative text",
+          title: "Alternative text For Example Screenshot",
           description: "Important for SEO and accessiblity.",
           validation: (rule) => {
             return rule.custom((alt, context) => {

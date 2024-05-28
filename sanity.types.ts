@@ -97,7 +97,8 @@ export type Post = {
   excerpt?: string;
   recommendedJLPTLevel?: "N5" | "N4" | "N3" | "N2" | "N1";
   tags?: Array<string>;
-  contentType?: "text" | "video" | "audio" | "game";
+  contentType?: "text" | "video" | "audio" | "game" | "tool";
+  hasFurigana?: boolean;
   exampleScreenshot?: {
     asset?: {
       _ref: string;
@@ -470,7 +471,7 @@ export type SettingsQueryResult = {
   };
 } | null;
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  recommendedJLPTLevel,  tags,  exampleScreenshot,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type HeroQueryResult = {
   content: Array<{
     children?: Array<{
@@ -507,6 +508,22 @@ export type HeroQueryResult = {
     alt?: string;
     _type: "image";
   } | null;
+  recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
+  tags: Array<string> | null;
+  hasFurigana: boolean | null;
+  contentType?: "text" | "video" | "audio" | "game" | "tool";
+  exampleScreenshot: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
   date: string;
   author: {
     name: string | "Anonymous";
@@ -526,7 +543,7 @@ export type HeroQueryResult = {
   } | null;
 } | null;
 // Variable: moreStoriesQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  recommendedJLPTLevel,  tags,  exampleScreenshot,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type MoreStoriesQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
@@ -534,6 +551,22 @@ export type MoreStoriesQueryResult = Array<{
   slug: string | null;
   excerpt: string | null;
   coverImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
+  hasFurigana: boolean | null;
+  tags: Array<string> | null;
+  contentType?: "text" | "video" | "audio" | "game" | "tool";
+  exampleScreenshot: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -564,7 +597,7 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
+// Query: *[_type == "post" && slug.current == $slug] [0] {  content,    _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  recommendedJLPTLevel,  tags,  exampleScreenshot,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture, "jlptLevel": coalesce(jlptLevel, "N/A")},}
 export type PostQueryResult = {
   content: Array<{
     children?: Array<{
@@ -601,9 +634,11 @@ export type PostQueryResult = {
     alt?: string;
     _type: "image";
   } | null;
-  recommendedJLPTLevel: "N5" | "N4" | "N3" | "N2" | "N1" | null;
-  tags: Array<string>;
-  contentType: "text" | "video" | "audio" | "game";
+  recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
+  tags: Array<string> | null;
+  hasFurigana: boolean | null;
+  contentType: "text" | "video" | "audio" | "game" | "tool";
+
   exampleScreenshot: {
     asset?: {
       _ref: string;

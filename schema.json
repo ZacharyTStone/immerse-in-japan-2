@@ -620,8 +620,19 @@
             {
               "type": "string",
               "value": "game"
+            },
+            {
+              "type": "string",
+              "value": "tool"
             }
           ]
+        },
+        "optional": true
+      },
+      "hasFurigana": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },

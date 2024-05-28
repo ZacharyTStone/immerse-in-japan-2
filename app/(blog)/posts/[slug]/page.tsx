@@ -113,20 +113,18 @@ export default async function PostPage({ params }: Props) {
               {post.recommendedJLPTLevel} or higher
             </div>
           )}
+          {post.contentType !== "tool" && (
+            <div className="mb-6 text-lg">
+              <strong>Has Furigana? </strong>
+              {post.hasFurigana ? "Yes" : "No"}
+            </div>
+          )}
           {post.exampleScreenshot && (
             <div className="mb-6">
               <Image
                 alt={post.exampleScreenshot?.alt || ""}
-                className="h-full rounded-full object-cover"
-                height={100}
-                width={120}
-                src={
-                  urlForImage(post.exampleScreenshot)
-                    ?.height(200)
-                    .width(200)
-                    .fit("crop")
-                    .url() as string
-                }
+                className="rounded-full object-contain"
+                src={urlForImage(post.exampleScreenshot)?.url() as string}
               />
             </div>
           )}
