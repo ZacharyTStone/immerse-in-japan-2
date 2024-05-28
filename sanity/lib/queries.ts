@@ -11,6 +11,7 @@ const postFields = /* groq */ `
   coverImage,
   recommendedJLPTLevel,
   hasFurigana,
+  contentType,
   tags,
   exampleScreenshot,
   "date": coalesce(date, _updatedAt),
