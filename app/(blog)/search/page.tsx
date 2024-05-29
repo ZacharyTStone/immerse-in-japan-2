@@ -133,10 +133,15 @@ export default function SearchPage() {
                     className="text-xl font-bold text-blue-600 hover:underline"
                     target="_blank"
                   >
-                    <span style={{ color: "red" }}>{post.title}</span>
-                    <span className="text-gray-600">
+                    <span style={{ color: "gray-600" }}>{post.title}</span>
+                    <span
+                      className="
+                      text-sm
+                      text-gray-400
+                      group-hover:text-gray-500"
+                    >
                       {" "}
-                      -{formatContentTypeLabel(post.contentType)}
+                      {formatContentTypeLabel(post.contentType)}
                     </span>
                   </a>
                   <p className="text-gray-700 mt-2">{post.excerpt}</p>

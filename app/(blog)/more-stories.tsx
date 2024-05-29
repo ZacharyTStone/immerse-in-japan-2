@@ -30,7 +30,8 @@ export default async function MoreStories(params: {
     <>
       <div className="mb-32 grid grid-cols-1 gap-y-20 md:grid-cols-2 md:gap-x-16 md:gap-y-32 lg:gap-x-32">
         {data.map((post) => {
-          const { _id, title, slug, coverImage, excerpt, author } = post;
+          const { _id, title, slug, coverImage, excerpt, author, contentType } =
+            post;
           return (
             <article key={_id}>
               <Link href={`/posts/${slug}`} className="group mb-5 block">
@@ -38,9 +39,15 @@ export default async function MoreStories(params: {
               </Link>
               <h3 className="text-balance mb-3 text-3xl leading-snug">
                 <Link href={`/posts/${slug}`} className="hover:underline">
-                  <span style={{ color: "red" }}>{title}</span>
-                  <span className="text-gray-600">
-                    -{formatContentTypeLabel(post.contentType)}
+                  <span style={{ color: "gray-600" }}>{title}</span>
+                  <span
+                    className="
+                      text-sm
+                      text-gray-400
+                      group-hover:text-gray-500"
+                  >
+                    {" "}
+                    {formatContentTypeLabel(contentType)}
                   </span>
                 </Link>
               </h3>
