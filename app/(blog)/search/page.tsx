@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
 import { Image } from "next-sanity/image";
 import { urlForImage } from "@/sanity/lib/utils";
@@ -28,7 +27,7 @@ interface Post {
   author: {
     _ref: string;
     _type: string;
-    name: string; // Added author name property
+    name: string;
   };
   _createdAt: string;
   _updatedAt: string;
@@ -47,8 +46,8 @@ interface Post {
   }>;
 }
 
-async function fetchPosts(query: string): Promise<Post[]> {
-  const res = await fetch(`/api/search?query=${query}`);
+async function fetchPosts(query: string, jlptLevel: string): Promise<Post[]> {
+  const res = await fetch(`/api/search?query=${query}&jlptLevel=${jlptLevel}`);
   const posts: Post[] = await res.json();
   return posts;
 }
@@ -57,23 +56,21 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState(
-    searchParams.get("query") || ""
-  );
+  const searchQuery = searchParams.get("query") || "";
+  const jlptLevel = searchParams.get("jlptLevel") || "";
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    async function loadPosts() {
-      const fetchedPosts = await fetchPosts(searchQuery);
+    const handler = setTimeout(async () => {
+      const fetchedPosts = await fetchPosts(searchQuery, jlptLevel);
       setPosts(fetchedPosts);
-    }
-    loadPosts();
-  }, [searchQuery]);
+    }, 1000);
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const query = formData.get("query") as string;
+    return () => clearTimeout(handler);
+  }, [searchQuery, jlptLevel]);
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
     const params = new URLSearchParams(searchParams);
     if (query) {
       params.set("query", query);
@@ -81,77 +78,122 @@ export default function SearchPage() {
       params.delete("query");
     }
     router.replace(`${pathname}?${params.toString()}`);
-    setSearchQuery(query);
+  };
+
+  const handleJlptLevelChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const level = event.target.value;
+    const params = new URLSearchParams(searchParams);
+    if (level) {
+      params.set("jlptLevel", level);
+    } else {
+      params.delete("jlptLevel");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container mx-auto px-5 py-10">
-        <form
-          method="GET"
-          action="/search"
-          onSubmit={handleSearch}
-          className="flex justify-center mb-10"
-        >
-          <input
-            type="text"
-            name="query"
-            defaultValue={searchQuery}
-            placeholder="Search by title"
-            className="border p-2 w-1/2"
-          />
-          <button type="submit" className="ml-2 p-2 bg-blue-500 text-white">
-            Search
-          </button>
-        </form>
+        <div className="flex flex-col md:flex-row justify-center items-center mb-10 space-y-4 md:space-y-0 md:space-x-8">
+          <label className="block text-sm font-medium text-gray-700">
+            Post Title
+            <input
+              type="text"
+              name="query"
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Search by title"
+              style={{
+                border: "1px solid red",
+              }}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none sm:text-sm rounded-md"
+            />
+          </label>
+          <label className="block text-sm font-medium text-gray-700">
+            Minimum Reccomended JLPT Level
+            <select
+              name="jlptLevel"
+              value={jlptLevel}
+              onChange={handleJlptLevelChange}
+              style={{
+                border: "1px solid red",
+              }}
+              className="
+                mt-1
+                block
+                w-full
+                pl-3
+                pr-10
+                py-2
+                text-base
+                focus:outline-none
+                sm:text-sm
+                rounded-md"
+            >
+              <option value="">All Levels</option>
+              <option value="N5">N5</option>
+              <option value="N4">N4</option>
+              <option value="N3">N3</option>
+              <option value="N2">N2</option>
+              <option value="N1">N1</option>
+            </select>
+          </label>
+        </div>
         <div className="mt-5 space-y-5">
-          {posts.map((post) => {
-            console.log("post", post);
-            const picture = post.coverImage;
-            return (
-              <div key={post._id} className="border p-4 rounded shadow flex">
-                {post.coverImage && (
-                  <div className="mr-4">
-                    <Image
-                      alt={picture?.alt || ""}
-                      className="h-full rounded-full object-cover"
-                      height={100}
-                      width={120}
-                      src={
-                        urlForImage(picture)
-                          ?.height(200)
-                          .width(200)
-                          .fit("crop")
-                          .url() as string
-                      }
-                    />
-                  </div>
-                )}
-                <div>
-                  <a
-                    href={`/posts/${post.slug.current}`}
-                    className="text-xl font-bold text-blue-600 hover:underline"
-                    target="_blank"
-                  >
-                    <span style={{ color: "gray-600" }}>{post.title}</span>
-                    <span
-                      className="
+          {posts.length === 0 ? (
+            <p className="text-center text-gray-400">No posts found.</p>
+          ) : (
+            posts.map((post) => {
+              console.log("post", post);
+              const picture = post.coverImage;
+              return (
+                <div key={post._id} className="border p-4 rounded shadow flex">
+                  {post.coverImage && (
+                    <div className="mr-4">
+                      <Image
+                        alt={picture?.alt || ""}
+                        className="h-full rounded-full object-cover"
+                        style={{ minWidth: "120px" }}
+                        height={100}
+                        width={120}
+                        src={
+                          urlForImage(picture)
+                            ?.height(200)
+                            .width(200)
+                            .fit("crop")
+                            .url() as string
+                        }
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <a
+                      href={`/posts/${post.slug.current}`}
+                      className="text-xl font-bold text-blue-600 hover:underline"
+                      target="_blank"
+                    >
+                      <span style={{ color: "gray-600" }}>{post.title}</span>
+                      <span
+                        className="
                       text-sm
                       text-gray-400
                       group-hover:text-gray-500"
-                    >
-                      {" "}
-                      {formatContentTypeLabel(post.contentType)}
-                    </span>
-                  </a>
-                  <p className="text-gray-700 mt-2">{post.excerpt}</p>
-                  <p className="text-gray-500 text-sm mt-1">
-                    Posted on: {new Date(post.date).toLocaleDateString()}
-                  </p>
+                      >
+                        {" "}
+                        {formatContentTypeLabel(post.contentType)}
+                      </span>
+                    </a>
+                    <p className="text-gray-700 mt-2">{post.excerpt}</p>
+                    <p className="text-gray-500 text-sm mt-1">
+                      Posted on: {new Date(post.date).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </Suspense>
