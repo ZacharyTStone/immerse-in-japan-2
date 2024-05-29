@@ -7,6 +7,7 @@ import DateComponent from "./date";
 import type { MoreStoriesQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { moreStoriesQuery } from "@/sanity/lib/queries";
+import { formatContentTypeLabel } from "../utils";
 
 export default async function MoreStories(params: {
   skip: string;
@@ -37,7 +38,10 @@ export default async function MoreStories(params: {
               </Link>
               <h3 className="text-balance mb-3 text-3xl leading-snug">
                 <Link href={`/posts/${slug}`} className="hover:underline">
-                  {title}
+                  <span style={{ color: "red" }}>{title}</span>
+                  <span className="text-gray-600">
+                    -{formatContentTypeLabel(post.contentType)}
+                  </span>
                 </Link>
               </h3>
               <div className="mb-4 text-lg">

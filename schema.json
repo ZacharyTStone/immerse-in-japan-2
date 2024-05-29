@@ -643,14 +643,14 @@
         },
         "optional": true
       },
-      "tiktokVideo": {
+      "youtubeVideo": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": true
       },
-      "youtubeVideo": {
+      "tiktokVideo": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

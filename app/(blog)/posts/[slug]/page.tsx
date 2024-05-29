@@ -10,7 +10,7 @@ import DateComponent from "../../date";
 import MoreStories from "../../more-stories";
 import SocialMediaSection from "../../social-media-section";
 import PortableText from "../../portable-text";
-import { highlightWords } from "../../../utils";
+import { formatContentTypeLabel, highlightWords } from "../../../utils";
 import { FaArrowLeft } from "react-icons/fa";
 
 import type {
@@ -88,7 +88,11 @@ export default async function PostPage({ params }: Props) {
       </h2>
       <article>
         <h1 className="text-balance mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl md:leading-none lg:text-7xl">
-          {post.title}
+          <span style={{ color: "red" }}>{post.title}</span>
+          <span className="text-gray-600">
+            {" "}
+            -{formatContentTypeLabel(post.contentType)}
+          </span>
         </h1>
         <div className="mb-6 block md:mb-12">
           {post.author && (

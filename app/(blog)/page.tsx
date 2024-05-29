@@ -14,7 +14,7 @@ import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
-import { highlightWords } from "../utils";
+import { formatContentTypeLabel, highlightWords } from "../utils";
 
 function Intro(props: { title: string | null | undefined; description: any }) {
   const title = props.title || demo.title;
@@ -64,6 +64,7 @@ function Intro(props: { title: string | null | undefined; description: any }) {
 }
 function HeroPost({
   title,
+  contentType,
   slug,
   excerpt,
   coverImage,
@@ -71,7 +72,13 @@ function HeroPost({
   author,
 }: Pick<
   Exclude<HeroQueryResult, null>,
-  "title" | "coverImage" | "date" | "excerpt" | "author" | "slug"
+  | "title"
+  | "coverImage"
+  | "date"
+  | "excerpt"
+  | "author"
+  | "slug"
+  | "contentType"
 >) {
   return (
     <article className="lg:px-24">
@@ -87,9 +94,18 @@ function HeroPost({
       </Link>
       <div className="mb-20 md:mb-28 md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8">
         <div>
-          <h3 className="text-pretty mb-4 text-4xl leading-tight lg:text-6xl">
+          <h3 className="text-pretty mb-4 text-3xl leading-tight lg:text-5xl">
             <Link href={`/posts/${slug}`} className="hover:underline">
-              {title}
+              <span
+                style={{
+                  color: "red",
+                }}
+              >
+                {title}
+              </span>
+              <span className="text-gray-600">
+                -{formatContentTypeLabel(contentType)}
+              </span>
             </Link>
           </h3>
           <div className="mb-4 text-lg md:mb-0">
@@ -129,6 +145,7 @@ export default async function Page() {
       {heroPost ? (
         <HeroPost
           title={heroPost.title}
+          contentType={heroPost.contentType}
           slug={heroPost.slug}
           coverImage={heroPost.coverImage}
           excerpt={heroPost.excerpt}

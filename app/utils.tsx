@@ -17,3 +17,32 @@ export function highlightWords(
     </>
   );
 }
+
+export function formatContentTypeLabel(
+  contentType:
+    | string
+    | undefined
+    | "text"
+    | "video"
+    | "audio"
+    | "tool"
+    | "game"
+    | null
+): string {
+  const contentTypeLower = contentType?.toLowerCase();
+
+  switch (contentTypeLower) {
+    case "text":
+      return "Text Review";
+    case "video":
+      return "Video Review";
+    case "audio":
+      return "Audio Review";
+    case "tool":
+      return "Tool Review";
+    case "game":
+      return "Game Review";
+    default:
+      return contentType + " Review";
+  }
+}

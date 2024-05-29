@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
 import { Image } from "next-sanity/image";
 import { urlForImage } from "@/sanity/lib/utils";
+import { formatContentTypeLabel } from "@/app/utils";
 
 interface Post {
   _id: string;
@@ -31,6 +32,7 @@ interface Post {
   };
   _createdAt: string;
   _updatedAt: string;
+  contentType: string;
   content: Array<{
     children: Array<{
       _type: string;
@@ -131,7 +133,11 @@ export default function SearchPage() {
                     className="text-xl font-bold text-blue-600 hover:underline"
                     target="_blank"
                   >
-                    {post.title}
+                    <span style={{ color: "red" }}>{post.title}</span>
+                    <span className="text-gray-600">
+                      {" "}
+                      -{formatContentTypeLabel(post.contentType)}
+                    </span>
                   </a>
                   <p className="text-gray-700 mt-2">{post.excerpt}</p>
                   <p className="text-gray-500 text-sm mt-1">
