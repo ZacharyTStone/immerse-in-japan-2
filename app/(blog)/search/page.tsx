@@ -46,8 +46,14 @@ interface Post {
   }>;
 }
 
-async function fetchPosts(query: string, jlptLevel: string): Promise<Post[]> {
-  const res = await fetch(`/api/search?query=${query}&jlptLevel=${jlptLevel}`);
+async function fetchPosts(
+  query: string,
+  jlptLevel: string,
+  includeAllLowerLevels: boolean
+): Promise<Post[]> {
+  const res = await fetch(
+    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}`
+  );
   const posts: Post[] = await res.json();
   return posts;
 }
@@ -58,16 +64,22 @@ export default function SearchPage() {
   const router = useRouter();
   const searchQuery = searchParams.get("query") || "";
   const jlptLevel = searchParams.get("jlptLevel") || "";
+  const includeAllLowerLevels =
+    searchParams.get("includeAllLowerLevels") === "true" ?? "true";
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const handler = setTimeout(async () => {
-      const fetchedPosts = await fetchPosts(searchQuery, jlptLevel);
+      const fetchedPosts = await fetchPosts(
+        searchQuery,
+        jlptLevel,
+        includeAllLowerLevels
+      );
       setPosts(fetchedPosts);
     }, 1000);
 
     return () => clearTimeout(handler);
-  }, [searchQuery, jlptLevel]);
+  }, [searchQuery, jlptLevel, includeAllLowerLevels]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -93,11 +105,24 @@ export default function SearchPage() {
     router.replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleIncludeAllLowerLevelsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const includeAllLowerLevels = event.target.checked;
+    const params = new URLSearchParams(searchParams);
+    if (includeAllLowerLevels) {
+      params.set("includeAllLowerLevels", "true");
+    } else {
+      params.delete("includeAllLowerLevels");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container mx-auto px-5 py-10">
         <div className="flex flex-col md:flex-row justify-center items-center mb-10 space-y-4 md:space-y-0 md:space-x-8">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3">
             Post Title
             <input
               type="text"
@@ -105,32 +130,16 @@ export default function SearchPage() {
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Search by title"
-              style={{
-                border: "1px solid red",
-              }}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base  focus:outline-none sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
             />
           </label>
-          <label className="block text-sm font-medium text-gray-700">
-            Minimum Reccomended JLPT Level
+          <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3">
+            Recommended JLPT Level
             <select
               name="jlptLevel"
               value={jlptLevel}
               onChange={handleJlptLevelChange}
-              style={{
-                border: "1px solid red",
-              }}
-              className="
-                mt-1
-                block
-                w-full
-                pl-3
-                pr-10
-                py-2
-                text-base
-                focus:outline-none
-                sm:text-sm
-                rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
             >
               <option value="">All Levels</option>
               <option value="N5">N5</option>
@@ -140,13 +149,21 @@ export default function SearchPage() {
               <option value="N1">N1</option>
             </select>
           </label>
+          <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3">
+            Include All Lower Levels
+            <input
+              type="checkbox"
+              checked={includeAllLowerLevels}
+              onChange={handleIncludeAllLowerLevelsChange}
+              className="mt-1 block"
+            />
+          </label>
         </div>
         <div className="mt-5 space-y-5">
           {posts.length === 0 ? (
             <p className="text-center text-gray-400">No posts found.</p>
           ) : (
             posts.map((post) => {
-              console.log("post", post);
               const picture = post.coverImage;
               return (
                 <div key={post._id} className="border p-4 rounded shadow flex">
@@ -174,13 +191,8 @@ export default function SearchPage() {
                       className="text-xl font-bold text-blue-600 hover:underline"
                       target="_blank"
                     >
-                      <span style={{ color: "gray-600" }}>{post.title}</span>
-                      <span
-                        className="
-                      text-sm
-                      text-gray-400
-                      group-hover:text-gray-500"
-                      >
+                      <span className="text-gray-600">{post.title}</span>
+                      <span className="text-sm text-gray-400 group-hover:text-gray-500">
                         {" "}
                         {formatContentTypeLabel(post.contentType)}
                       </span>
