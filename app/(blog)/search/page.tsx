@@ -67,16 +67,19 @@ export default function SearchPage() {
   const includeAllLowerLevels =
     searchParams.get("includeAllLowerLevels") === "true" ?? "true";
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handler = setTimeout(async () => {
+      setLoading(true);
       const fetchedPosts = await fetchPosts(
         searchQuery,
         jlptLevel,
         includeAllLowerLevels
       );
       setPosts(fetchedPosts);
-    }, 1000);
+      setLoading(false);
+    }, 2000);
 
     return () => clearTimeout(handler);
   }, [searchQuery, jlptLevel, includeAllLowerLevels]);
@@ -160,7 +163,27 @@ export default function SearchPage() {
           </label>
         </div>
         <div className="mt-5 space-y-5">
-          {posts.length === 0 ? (
+          {loading ? (
+            <div className="space-y-4">
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="border p-4 rounded shadow flex">
+                  <div className="animate-pulse flex space-x-4">
+                    <div className="rounded-full bg-slate-200 h-10 w-10"></div>
+                    <div className="flex-1 space-y-6 py-1">
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                        </div>
+                        <div className="h-2 bg-slate-200 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : posts.length === 0 ? (
             <p className="text-center text-gray-400">No posts found.</p>
           ) : (
             posts.map((post) => {
