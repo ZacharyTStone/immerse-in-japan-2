@@ -5,7 +5,8 @@ import { useState, useEffect, Suspense } from "react";
 import { Image } from "next-sanity/image";
 import { urlForImage } from "@/sanity/lib/utils";
 import { formatContentTypeLabel } from "@/app/utils";
-
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 interface Post {
   _id: string;
   slug: {
@@ -124,6 +125,14 @@ export default function SearchPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container mx-auto px-5 py-10">
+        <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
+          <div className="flex items-center gap-2">
+            <FaArrowLeft color="red" size="1.5em" />
+            <Link href="/" className="hover:underline text-red-500">
+              Back Home
+            </Link>
+          </div>
+        </h2>
         <div className="flex flex-col md:flex-row justify-center items-center mb-10 space-y-4 md:space-y-0 md:space-x-8">
           <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3">
             Post Title
