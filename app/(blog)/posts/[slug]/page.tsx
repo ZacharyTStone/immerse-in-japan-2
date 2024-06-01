@@ -87,7 +87,7 @@ export default async function PostPage({ params }: Props) {
         </div>
       </h2>
       <article>
-        <h1 className="text-balance mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl md:leading-none lg:text-7xl">
+        <h1 className="text-balance mb-8 text-4xl font-bold leading-tight md:text-6xl md:leading-none lg:text-7xl">
           <span style={{ color: "gray-600" }}>{post.title}</span>
           <span
             className="
