@@ -271,7 +271,7 @@ export default function SearchPage() {
   );
 }
 
-export function Pagination({
+function Pagination({
   postsPerPage,
   totalPosts,
   paginate,
