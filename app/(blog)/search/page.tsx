@@ -15,40 +15,6 @@ type Props = {
   currentPage: number;
 };
 
-export function Pagination({
-  postsPerPage,
-  totalPosts,
-  paginate,
-  currentPage,
-}: Props) {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  return (
-    <nav>
-      <ul className="flex justify-center space-x-2">
-        {pageNumbers.map((number) => (
-          <li
-            key={number}
-            className={`px-4 py-2 border rounded ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
-          >
-            <button
-              onClick={() => paginate(number)}
-              className={`focus:outline-none ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500 hover:bg-blue-100 hover:text-blue-600"} transition-colors duration-200 rounded px-4 py-2`}
-              disabled={currentPage === number}
-            >
-              {number}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
 interface Post {
   _id: string;
   slug: {
@@ -302,5 +268,39 @@ export default function SearchPage() {
         />
       </div>
     </Suspense>
+  );
+}
+
+export function Pagination({
+  postsPerPage,
+  totalPosts,
+  paginate,
+  currentPage,
+}: Props) {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav>
+      <ul className="flex justify-center space-x-2">
+        {pageNumbers.map((number) => (
+          <li
+            key={number}
+            className={`px-4 py-2 border rounded ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
+          >
+            <button
+              onClick={() => paginate(number)}
+              className={`focus:outline-none ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500 hover:bg-blue-100 hover:text-blue-600"} transition-colors duration-200 rounded px-4 py-2`}
+              disabled={currentPage === number}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
