@@ -7,6 +7,48 @@ import { urlForImage } from "@/sanity/lib/utils";
 import { formatContentTypeLabel } from "@/app/utils";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
+
+type Props = {
+  postsPerPage: number;
+  totalPosts: number;
+  paginate: (pageNumber: number) => void;
+  currentPage: number;
+};
+
+export function Pagination({
+  postsPerPage,
+  totalPosts,
+  paginate,
+  currentPage,
+}: Props) {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav>
+      <ul className="flex justify-center space-x-2">
+        {pageNumbers.map((number) => (
+          <li
+            key={number}
+            className={`px-4 py-2 border rounded ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
+          >
+            <button
+              onClick={() => paginate(number)}
+              className={`focus:outline-none ${currentPage === number ? "bg-blue-500 text-white" : "bg-white text-blue-500 hover:bg-blue-100 hover:text-blue-600"} transition-colors duration-200 rounded px-4 py-2`}
+              disabled={currentPage === number}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 interface Post {
   _id: string;
   slug: {
@@ -50,13 +92,15 @@ interface Post {
 async function fetchPosts(
   query: string,
   jlptLevel: string,
-  includeAllLowerLevels: boolean
-): Promise<Post[]> {
+  includeAllLowerLevels: boolean,
+  skip: number,
+  take: number
+): Promise<{ posts: Post[]; totalCount: number }> {
   const res = await fetch(
-    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}`
+    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}&skip=${skip}&take=${take}`
   );
-  const posts: Post[] = await res.json();
-  return posts;
+  const data: { posts: Post[]; totalCount: number } = await res.json();
+  return data;
 }
 
 export default function SearchPage() {
@@ -69,21 +113,32 @@ export default function SearchPage() {
     searchParams.get("includeAllLowerLevels") === "true" ?? "true";
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+  const [totalPosts, setTotalPosts] = useState(0);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     const handler = setTimeout(async () => {
       setLoading(true);
-      const fetchedPosts = await fetchPosts(
+      const { posts, totalCount } = await fetchPosts(
         searchQuery,
         jlptLevel,
-        includeAllLowerLevels
+        includeAllLowerLevels,
+        (currentPage - 1) * postsPerPage,
+        postsPerPage
       );
-      setPosts(fetchedPosts);
+
+      console.log("wow posts", posts);
+      console.log("wow totalCount", totalCount);
+      setPosts(posts);
+      setTotalPosts(totalCount);
       setLoading(false);
     }, 2000);
 
     return () => clearTimeout(handler);
-  }, [searchQuery, jlptLevel, includeAllLowerLevels]);
+  }, [searchQuery, jlptLevel, includeAllLowerLevels, currentPage]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -192,10 +247,10 @@ export default function SearchPage() {
                 </div>
               ))}
             </div>
-          ) : posts.length === 0 ? (
+          ) : posts?.length === 0 ? (
             <p className="text-center text-gray-400">No posts found.</p>
           ) : (
-            posts.map((post) => {
+            posts?.map((post) => {
               const picture = post.coverImage;
               return (
                 <div key={post._id} className="border p-4 rounded shadow flex">
@@ -239,6 +294,12 @@ export default function SearchPage() {
             })
           )}
         </div>
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={totalPosts}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
     </Suspense>
   );

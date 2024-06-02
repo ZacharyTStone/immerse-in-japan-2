@@ -7,7 +7,6 @@ import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import DateComponent from "./date";
 import MoreStories from "./more-stories";
-import Onboarding from "./onboarding";
 import PortableText from "./portable-text";
 
 import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
@@ -37,25 +36,7 @@ function Intro(props: { title: string | null | undefined; description: any }) {
             className="hover:underline text-red-500 flex items-center"
           >
             <FaSearch className="mr-1 text-xl" />
-            <PortableText
-              className="prose-sm text-white"
-              value={[
-                {
-                  _key: "search",
-                  _type: "block",
-                  children: [
-                    {
-                      _key: "search",
-                      _type: "span",
-                      marks: [],
-                      text: "Search Posts",
-                    },
-                  ],
-                  markDefs: [],
-                  style: "normal",
-                },
-              ]}
-            />
+            <span className="text-xl">Search</span>
           </Link>
         </div>
       </h2>
@@ -142,7 +123,7 @@ export default async function Page() {
   return (
     <div className="container mx-auto px-5">
       <Intro title={settings?.title} description={settings?.description} />
-      {heroPost ? (
+      {heroPost && (
         <HeroPost
           title={heroPost.title}
           contentType={heroPost.contentType}
@@ -152,8 +133,6 @@ export default async function Page() {
           date={heroPost.date}
           author={heroPost.author}
         />
-      ) : (
-        <Onboarding />
       )}
       {heroPost?._id && (
         <aside>
