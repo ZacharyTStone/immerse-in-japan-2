@@ -46,5 +46,63 @@ export default defineType({
       title: "JLPT Level",
       type: "string",
     }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "name",
+        maxLength: 96,
+        slugify: (input) =>
+          input
+            .toLowerCase()
+            .replace(/\s+/g, "-") // スペースをハイフンに置換
+            .replace(/[^\w\-]+/g, "") // 特殊文字を削除
+            .slice(0, 96), // 最大長を制限
+      },
+    }),
+    defineField({
+      name: "bio",
+      title: "Bio",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "featuredLinks",
+      title: "Featured Links",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+            }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "donationLink",
+      title: "Donation Link",
+      type: "string",
+    }),
+    defineField({
+      name: "socialMedia",
+      title: "Social Media Usernames",
+      type: "object",
+      fields: [
+        { name: "twitter", type: "string", title: "Twitter" },
+        { name: "instagram", type: "string", title: "Instagram" },
+        { name: "linkedin", type: "string", title: "LinkedIn" },
+      ],
+    }),
   ],
 });

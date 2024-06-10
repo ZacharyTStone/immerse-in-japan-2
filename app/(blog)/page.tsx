@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaUser } from "react-icons/fa";
 import SocialMediaSection from "./social-media-section";
 
 import Avatar from "./avatar";
@@ -31,6 +31,13 @@ function Intro(props: { title: string | null | undefined; description: any }) {
           value={description?.length ? description : demo.description}
         />
         <div className="mt-4 text-center lg:text-left flex justify-end gap-4">
+          <Link
+            href="/authors"
+            className="hover:underline text-red-500 flex items-center"
+          >
+            <FaUser className="mr-1 text-xl" />
+            <span className="text-xl">Authors</span>
+          </Link>
           <Link
             href="/search"
             className="hover:underline text-red-500 flex items-center"
