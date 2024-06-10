@@ -16,11 +16,7 @@ const authorsQuery = groq`*[_type == "author"]{
   donationLink
 }`;
 
-interface AuthorsPageProps {
-  authors: Author[];
-}
-
-export default async function AuthorsPage({ authors }: AuthorsPageProps) {
+export default async function AuthorsPage() {
   const allAuthors = await sanityFetch<Author[]>({ query: authorsQuery });
 
   console.log(allAuthors);
