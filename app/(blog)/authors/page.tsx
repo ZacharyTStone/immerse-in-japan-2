@@ -22,7 +22,7 @@ export default async function AuthorsPage() {
   console.log(allAuthors);
 
   return (
-    <div className="container mx-auto px-5">
+    <div className="container mx-auto px-5 min-h-screen">
       <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
         <div className="flex items-center gap-2">
           <FaArrowLeft color="red" size="1.5em" />

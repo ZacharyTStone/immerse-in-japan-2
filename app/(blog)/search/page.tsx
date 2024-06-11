@@ -60,10 +60,11 @@ async function fetchPosts(
   jlptLevel: string,
   includeAllLowerLevels: boolean,
   skip: number,
-  take: number
+  take: number,
+  contentType: string
 ): Promise<{ posts: Post[]; totalCount: number }> {
   const res = await fetch(
-    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}&skip=${skip}&take=${take}`
+    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}&skip=${skip}&take=${take}&contentType=${contentType}`
   );
   const data: { posts: Post[]; totalCount: number } = await res.json();
   return data;
@@ -75,6 +76,7 @@ export default function SearchPage() {
   const router = useRouter();
   const searchQuery = searchParams.get("query") || "";
   const jlptLevel = searchParams.get("jlptLevel") || "";
+  const contentType = searchParams.get("contentType") || "";
   const includeAllLowerLevels =
     searchParams.get("includeAllLowerLevels") === "true" ?? "true";
   const [posts, setPosts] = useState<Post[]>([]);
@@ -84,27 +86,6 @@ export default function SearchPage() {
   const [totalPosts, setTotalPosts] = useState(0);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  useEffect(() => {
-    const handler = setTimeout(async () => {
-      setLoading(true);
-      const { posts, totalCount } = await fetchPosts(
-        searchQuery,
-        jlptLevel,
-        includeAllLowerLevels,
-        (currentPage - 1) * postsPerPage,
-        postsPerPage
-      );
-
-      console.log("wow posts", posts);
-      console.log("wow totalCount", totalCount);
-      setPosts(posts);
-      setTotalPosts(totalCount);
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(handler);
-  }, [searchQuery, jlptLevel, includeAllLowerLevels, currentPage]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -142,6 +123,41 @@ export default function SearchPage() {
     }
     router.replace(`${pathname}?${params.toString()}`);
   };
+
+  const handleContentTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const type = event.target.value;
+    const params = new URLSearchParams(searchParams);
+    if (type) {
+      params.set("contentType", type);
+    } else {
+      params.delete("contentType");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(async () => {
+      setLoading(true);
+      const { posts, totalCount } = await fetchPosts(
+        searchQuery,
+        jlptLevel,
+        includeAllLowerLevels,
+        (currentPage - 1) * postsPerPage,
+        postsPerPage,
+        contentType
+      );
+
+      console.log("wow posts", posts);
+      console.log("wow totalCount", totalCount);
+      setPosts(posts);
+      setTotalPosts(totalCount);
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery, jlptLevel, includeAllLowerLevels, currentPage, contentType]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -183,13 +199,29 @@ export default function SearchPage() {
             </select>
           </label>
           <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3">
-            Include All Lower Levels
+            Content Type
+            <select
+              name="contentType"
+              value={contentType}
+              onChange={handleContentTypeChange}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option value="">All Types</option>
+              <option value="text">Text</option>
+              <option value="video">Video</option>
+              <option value="audio">Audio</option>
+              <option value="game">Game</option>
+              <option value="tool">Tool</option>
+            </select>
+          </label>
+          <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3 flex items-center h-full">
             <input
               type="checkbox"
               checked={includeAllLowerLevels}
               onChange={handleIncludeAllLowerLevelsChange}
-              className="mt-1 block"
+              className="mt-1 mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
+            <span className="text-gray-700">Include All Lower Levels</span>
           </label>
         </div>
         <div className="mt-5 space-y-5">
@@ -285,7 +317,7 @@ function Pagination({
 
   return (
     <nav>
-      <ul className="flex justify-center space-x-2">
+      <ul className="flex justify-center space-x-2 mt-4">
         {pageNumbers.map((number) => (
           <li
             key={number}
