@@ -61,10 +61,11 @@ async function fetchPosts(
   includeAllLowerLevels: boolean,
   skip: number,
   take: number,
-  contentType: string
+  contentType: string,
+  mustHaveFurigana: boolean
 ): Promise<{ posts: Post[]; totalCount: number }> {
   const res = await fetch(
-    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}&skip=${skip}&take=${take}&contentType=${contentType}`
+    `/api/search?query=${query}&jlptLevel=${jlptLevel}&includeAllLowerLevels=${includeAllLowerLevels}&skip=${skip}&take=${take}&contentType=${contentType}&mustHaveFurigana=${mustHaveFurigana}`
   );
   const data: { posts: Post[]; totalCount: number } = await res.json();
   return data;
@@ -79,6 +80,8 @@ export default function SearchPage() {
   const contentType = searchParams.get("contentType") || "";
   const includeAllLowerLevels =
     searchParams.get("includeAllLowerLevels") === "true" ?? "true";
+  const mustHaveFurigana =
+    searchParams.get("mustHaveFurigana") === "true" ?? "false";
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,6 +127,19 @@ export default function SearchPage() {
     router.replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleMustHaveFuriganaChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const mustHaveFurigana = event.target.checked;
+    const params = new URLSearchParams(searchParams);
+    if (mustHaveFurigana) {
+      params.set("mustHaveFurigana", "true");
+    } else {
+      params.delete("mustHaveFurigana");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   const handleContentTypeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -146,7 +162,8 @@ export default function SearchPage() {
         includeAllLowerLevels,
         (currentPage - 1) * postsPerPage,
         postsPerPage,
-        contentType
+        contentType,
+        mustHaveFurigana
       );
 
       console.log("wow posts", posts);
@@ -157,7 +174,14 @@ export default function SearchPage() {
     }, 2000);
 
     return () => clearTimeout(handler);
-  }, [searchQuery, jlptLevel, includeAllLowerLevels, currentPage, contentType]);
+  }, [
+    searchQuery,
+    jlptLevel,
+    includeAllLowerLevels,
+    currentPage,
+    contentType,
+    mustHaveFurigana,
+  ]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -222,6 +246,15 @@ export default function SearchPage() {
               className="mt-1 mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <span className="text-gray-700">Include All Lower Levels</span>
+          </label>
+          <label className="block text-sm font-medium text-gray-700 w-full md:w-1/3 flex items-center h-full">
+            <input
+              type="checkbox"
+              checked={mustHaveFurigana}
+              onChange={handleMustHaveFuriganaChange}
+              className="mt-1 mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            />
+            <span className="text-gray-700">Must Have Furigana</span>
           </label>
         </div>
         <div className="mt-5 space-y-5">

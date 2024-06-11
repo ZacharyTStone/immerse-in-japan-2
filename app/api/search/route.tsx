@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   const skip = parseInt(searchParams.get("skip") || "0", 10);
   const take = parseInt(searchParams.get("take") || "10", 10);
   const contentType = searchParams.get("contentType") || "";
+  const mustHaveFurigana = searchParams.get("mustHaveFurigana") === "true";
 
   console.log("searchParams", searchParams);
   console.log("1.query", query);
@@ -18,14 +19,27 @@ export async function GET(request: Request) {
   console.log("4.skip", skip);
   console.log("5.take", take);
   console.log("6.contentType", contentType);
+  console.log("7.mustHaveFurigana", mustHaveFurigana);
 
   // JLPTレベルに基づいてフィルターを調整
   const jlptFilter = createJlptFilter(jlptLevel, includeAllLowerLevels);
 
   // Adjust the query to return all posts if the query is empty
   // and filter by recommendedJLPTLevel and contentType if provided
-  const groqQuery = createGroqQuery(query, jlptFilter, contentType, skip, take);
-  const groqQueryCount = createCountGroqQuery(query, jlptFilter, contentType);
+  const groqQuery = createGroqQuery(
+    query,
+    jlptFilter,
+    contentType,
+    skip,
+    take,
+    mustHaveFurigana
+  );
+  const groqQueryCount = createCountGroqQuery(
+    query,
+    jlptFilter,
+    contentType,
+    mustHaveFurigana
+  );
 
   const posts = await sanityFetch({
     query: groqQuery,
@@ -62,14 +76,17 @@ function createGroqQuery(
   jlptFilter: string,
   contentType: string,
   skip: number,
-  take: number
+  take: number,
+  mustHaveFurigana: boolean
 ): string {
   const contentTypeFilter = contentType
     ? `&& contentType == "${contentType}"`
     : "";
+  const furiganaFilter = mustHaveFurigana ? "&& hasFurigana == true" : "";
+
   const baseQuery = query
-    ? `*[_type == "post" && title match "*" + $query + "*" ${jlptFilter} ${contentTypeFilter}]`
-    : `*[_type == "post" ${jlptFilter} ${contentTypeFilter}]`;
+    ? `*[_type == "post" && title match "*" + $query + "*" ${jlptFilter} ${contentTypeFilter} ${furiganaFilter}]`
+    : `*[_type == "post" ${jlptFilter} ${contentTypeFilter} ${furiganaFilter}]`;
 
   return `${baseQuery} | order(_createdAt desc) [${skip}...${skip + take}]`;
 }
@@ -77,14 +94,17 @@ function createGroqQuery(
 function createCountGroqQuery(
   query: string,
   jlptFilter: string,
-  contentType: string
+  contentType: string,
+  mustHaveFurigana: boolean
 ): string {
   const contentTypeFilter = contentType
     ? `&& contentType == "${contentType}"`
     : "";
+  const furiganaFilter = mustHaveFurigana ? "&& hasFurigana == true" : "";
+
   const baseQuery = query
-    ? `*[_type == "post" && title match "*" + $query + "*" ${jlptFilter} ${contentTypeFilter}]`
-    : `*[_type == "post" ${jlptFilter} ${contentTypeFilter}]`;
+    ? `*[_type == "post" && title match "*" + $query + "*" ${jlptFilter} ${contentTypeFilter} ${furiganaFilter}]`
+    : `*[_type == "post" ${jlptFilter} ${contentTypeFilter} ${furiganaFilter}]`;
 
   return `count(${baseQuery})`;
 }
