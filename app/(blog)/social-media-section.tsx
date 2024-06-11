@@ -9,7 +9,7 @@ import {
 
 export default function SocialMediaSection({
   // yotsuba
-  instagramUrl = "https://www.instagram.com/p/C7jJg3vObdo/",
+  instagramUrl = "https://www.instagram.com/p/C7bmdmRuE06/",
   // netflix review
   tiktokUrl = "https://www.tiktok.com/@immerseinjapan/video/7373279234984398122",
   // netflix review
