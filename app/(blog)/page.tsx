@@ -30,13 +30,13 @@ function Intro(props: { title: string | null | undefined; description: any }) {
           className="prose-lg text-white"
           value={description?.length ? description : demo.description}
         />
-        <div className="mt-4 text-center lg:text-left flex justify-end gap-4">
+        <div className="mt-4 text-center justify-between lg:text-left flex lg:justify-end gap-4">
           <Link
             href="/authors"
             className="hover:underline text-red-500 flex items-center"
           >
             <FaUser className="mr-1 text-xl" />
-            <span className="text-xl">Authors</span>
+            <span className="text-xl">All Authors</span>
           </Link>
           <Link
             href="/search"
