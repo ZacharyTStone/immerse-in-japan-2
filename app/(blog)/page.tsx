@@ -149,7 +149,14 @@ export default async function Page() {
           <Suspense>
             <MoreStories skip={heroPost._id} limit={100} />
           </Suspense>
-          <SocialMediaSection />
+          <SocialMediaSection
+            // yotsuba
+            instagramUrl="https://www.instagram.com/p/C7bmdmRuE06/"
+            // netflix review
+            tiktokUrl="https://www.tiktok.com/@immerseinjapan/video/7373279234984398122"
+            // netflix review
+            youtubeUrl="https://www.youtube.com/watch?v=uhHMHm5ZTLU"
+          />
         </aside>
       )}
     </div>
