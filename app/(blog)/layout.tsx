@@ -91,6 +91,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body>
         <section className="min-h-screen">
           {draftMode().isEnabled && <AlertBanner />}
