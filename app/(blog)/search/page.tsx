@@ -243,7 +243,7 @@ export default function SearchPage() {
               type="checkbox"
               checked={includeAllLowerLevels}
               onChange={handleIncludeAllLowerLevelsChange}
-              className="mt-1 mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              className="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <span className="text-gray-700">Include All Lower Levels</span>
           </label>
@@ -252,7 +252,7 @@ export default function SearchPage() {
               type="checkbox"
               checked={mustHaveFurigana}
               onChange={handleMustHaveFuriganaChange}
-              className="mt-1 mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              className="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <span className="text-gray-700">Must Have Furigana</span>
           </label>
