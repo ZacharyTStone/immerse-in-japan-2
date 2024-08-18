@@ -11,7 +11,7 @@ export default function SocialMediaSection({
   youtubeUrl,
   instagramUrl,
   tiktokUrl,
-  title = "Social Media",
+  title = "AI Social Media",
 }: {
   instagramUrl?: string;
   tiktokUrl?: string;

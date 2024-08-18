@@ -163,7 +163,7 @@ export default async function PostPage({ params }: Props) {
           instagramUrl={post.instaVideo ?? undefined}
           youtubeUrl={post.youtubeVideo ?? undefined}
           tiktokUrl={post.tiktokVideo ?? undefined}
-          title={"Check out this post on our social media!"}
+          title={"Check out this post on our AI Social Media!"}
         />
       </article>
       <aside>
