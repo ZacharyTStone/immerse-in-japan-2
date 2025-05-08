@@ -99,9 +99,6 @@ export type Post = {
   tags?: Array<string>;
   contentType?: "text" | "video" | "audio" | "game" | "tool";
   hasFurigana?: boolean;
-  instaVideo?: string;
-  youtubeVideo?: string;
-  tiktokVideo?: string;
   exampleScreenshot?: {
     asset?: {
       _ref: string;
@@ -319,17 +316,21 @@ export type SanityAssistInstructionTask = {
 
 export type SanityAssistTaskStatus = {
   _type: "sanity.assist.task.status";
-  tasks?: Array<{
-    _key: string;
-  } & SanityAssistInstructionTask>;
+  tasks?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstructionTask
+  >;
 };
 
 export type SanityAssistSchemaTypeAnnotations = {
   _type: "sanity.assist.schemaType.annotations";
   title?: string;
-  fields?: Array<{
-    _key: string;
-  } & SanityAssistSchemaTypeField>;
+  fields?: Array<
+    {
+      _key: string;
+    } & SanityAssistSchemaTypeField
+  >;
 };
 
 export type SanityAssistOutputType = {
@@ -382,18 +383,23 @@ export type SanityAssistInstructionUserInput = {
 };
 
 export type SanityAssistInstructionPrompt = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  } | ({
-    _key: string;
-  } & SanityAssistInstructionFieldRef) | ({
-    _key: string;
-  } & SanityAssistInstructionContext) | ({
-    _key: string;
-  } & SanityAssistInstructionUserInput)>;
+  children?: Array<
+    | {
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & SanityAssistInstructionFieldRef)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionContext)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionUserInput)
+  >;
   style?: "normal";
   listItem?: never;
   markDefs?: null;
@@ -414,19 +420,24 @@ export type SanityAssistInstruction = {
   title?: string;
   userId?: string;
   createdById?: string;
-  output?: Array<({
-    _key: string;
-  } & SanityAssistOutputField) | ({
-    _key: string;
-  } & SanityAssistOutputType)>;
+  output?: Array<
+    | ({
+        _key: string;
+      } & SanityAssistOutputField)
+    | ({
+        _key: string;
+      } & SanityAssistOutputType)
+  >;
 };
 
 export type SanityAssistSchemaTypeField = {
   _type: "sanity.assist.schemaType.field";
   path?: string;
-  instructions?: Array<{
-    _key: string;
-  } & SanityAssistInstruction>;
+  instructions?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstruction
+  >;
 };
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
@@ -529,9 +540,6 @@ export type HeroQueryResult = {
   } | null;
   recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
   hasFurigana: boolean | null;
-  instaVideo: string | null;
-  youtubeVideo: string | null;
-  tiktokVideo: string | null;
   contentType: "audio" | "game" | "text" | "tool" | "video" | null;
   tags: Array<string> | null;
   exampleScreenshot: {
@@ -586,9 +594,6 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
   recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
   hasFurigana: boolean | null;
-  instaVideo: string | null;
-  youtubeVideo: string | null;
-  tiktokVideo: string | null;
   contentType: "audio" | "game" | "text" | "tool" | "video" | null;
   tags: Array<string> | null;
   exampleScreenshot: {
@@ -661,9 +666,6 @@ export type PostQueryResult = {
   } | null;
   recommendedJLPTLevel: "N1" | "N2" | "N3" | "N4" | "N5" | null;
   hasFurigana: boolean | null;
-  instaVideo: string | null;
-  youtubeVideo: string | null;
-  tiktokVideo: string | null;
   contentType: "audio" | "game" | "text" | "tool" | "video" | null;
   tags: Array<string> | null;
   exampleScreenshot: {

@@ -8,7 +8,6 @@ import Avatar from "../../avatar";
 import CoverImage from "../../cover-image";
 import DateComponent from "../../date";
 import MoreStories from "../../more-stories";
-import SocialMediaSection from "../../social-media-section";
 import PortableText from "../../portable-text";
 import { formatContentTypeLabel, highlightWords } from "../../../utils";
 import { FaArrowLeft } from "react-icons/fa";
@@ -159,12 +158,6 @@ export default async function PostPage({ params }: Props) {
         )}
 
         <hr className="border-accent-2 my-16" />
-        <SocialMediaSection
-          instagramUrl={post.instaVideo ?? undefined}
-          youtubeUrl={post.youtubeVideo ?? undefined}
-          tiktokUrl={post.tiktokVideo ?? undefined}
-          title={"Check out this post on our AI Social Media!"}
-        />
       </article>
       <aside>
         <hr className="border-accent-2 my-16" />

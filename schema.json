@@ -636,27 +636,6 @@
         },
         "optional": true
       },
-      "instaVideo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "youtubeVideo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "tiktokVideo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "exampleScreenshot": {
         "type": "objectAttribute",
         "value": {

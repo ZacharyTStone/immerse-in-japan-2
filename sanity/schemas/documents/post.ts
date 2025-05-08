@@ -91,21 +91,6 @@ export default defineType({
       type: "boolean",
     }),
     defineField({
-      name: "instaVideo",
-      title: "Instagram Video",
-      type: "url",
-    }),
-    defineField({
-      name: "youtubeVideo",
-      title: "YouTube Video",
-      type: "url",
-    }),
-    defineField({
-      name: "tiktokVideo",
-      title: "TikTok Video",
-      type: "url",
-    }),
-    defineField({
       name: "exampleScreenshot",
       title: "Example Screenshot",
       type: "image",
