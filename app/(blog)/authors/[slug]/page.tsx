@@ -51,7 +51,7 @@ export default async function AuthorPage({ params }: Props) {
         <div className="flex items-center justify-between">
           <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
             <div className="flex items-center gap-2">
-              <FaArrowLeft color="red" size="1.5em" />
+              <FaArrowLeft className="text-red-500 text-2xl" />
               <Link href="/" className="hover:underline text-red-500">
                 Back Home
               </Link>
@@ -59,7 +59,7 @@ export default async function AuthorPage({ params }: Props) {
           </h2>
           <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
             <div className="flex items-center gap-2">
-              <FaUserFriends color="red" size="1.5em" />
+              <FaUserFriends className="text-red-500 text-2xl" />
               <Link href="/authors" className="hover:underline text-red-500">
                 Back to All Authors
               </Link>

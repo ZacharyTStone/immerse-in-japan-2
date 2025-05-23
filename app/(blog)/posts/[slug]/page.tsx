@@ -79,7 +79,7 @@ export default async function PostPage({ params }: Props) {
     <div className="container mx-auto px-5">
       <h2 className="mb-12 mt-8 text-xl font-bold leading-tight tracking-tight md:text-2xl md:tracking-tighter">
         <div className="flex items-center gap-2">
-          <FaArrowLeft color="red" size="1.5em" />
+          <FaArrowLeft className="text-red-500 text-2xl" />
           <Link href="/" className="hover:underline text-red-500">
             Back Home
           </Link>
@@ -87,7 +87,7 @@ export default async function PostPage({ params }: Props) {
       </h2>
       <article>
         <h1 className="text-balance mb-8 text-4xl font-bold leading-tight md:text-6xl md:leading-none lg:text-7xl">
-          <span style={{ color: "gray-600" }}>{post.title}</span>
+          <span className="text-gray-600">{post.title}</span>
           <span
             className="
                       text-sm

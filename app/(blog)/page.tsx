@@ -83,7 +83,7 @@ function HeroPost({
         <div>
           <h3 className="text-pretty mb-4 text-3xl leading-tight lg:text-5xl">
             <Link href={`/posts/${slug}`} className="hover:underline">
-              <span style={{ color: "gray-600" }}>{title}</span>
+              <span className="text-gray-600">{title}</span>
               <span
                 className="
                       text-sm

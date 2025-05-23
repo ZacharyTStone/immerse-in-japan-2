@@ -289,8 +289,7 @@ export default function SearchPage() {
                     <div className="mr-4">
                       <Image
                         alt={picture?.alt || ""}
-                        className="h-full rounded-full object-cover"
-                        style={{ minWidth: "120px" }}
+                        className="h-full rounded-full object-cover min-w-[120px]"
                         height={100}
                         width={120}
                         src={

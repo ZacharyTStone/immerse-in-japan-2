@@ -7,7 +7,7 @@ export function highlightWords(
     <>
       {parts.map((part, index) =>
         words.includes(part) ? (
-          <span key={index} style={{ color: "red" }}>
+          <span key={index} className="text-red-500">
             {part}
           </span>
         ) : (
